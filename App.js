@@ -1,17 +1,42 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import { useState } from "react";
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, View, FlatList, ScrollView } from "react-native";
+
+import TodoItem from "./components/TodoItem";
+import InputContainer from "./components/InputContainer";
+import BlankItem from "./components/BlankItem";
 
 export default function App() {
+  const [todoItemsArray, updateTodoItemsArray] = useState([]);
+
+  function addTodoItem(todoInputText) {
+    if (todoInputText != "") {
+      updateTodoItemsArray((currentTodoItemsArray) => [
+        ...todoItemsArray,
+        { id: Math.random().toString(), text: todoInputText },
+      ]);
+    }
+  }
+
   return (
     <View style={styles.container}>
+      <InputContainer onButtonPress={addTodoItem} />
 
-      <View style={styles.inputContainer}>
-        <TextInput placeholder='Enter a todo item' style={styles.textInput} />
-        <Button title="Add item" />
-      </View>
-
-      <View style={styles.listContainer}>
-        <Text>List goes here...</Text>
+      <View style={styles.todoContainer}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <FlatList
+            data={todoItemsArray}
+            renderItem={(todoItem) => {
+              return <TodoItem text={todoItem.item.text}></TodoItem>;
+            }}
+            keyExtractor={(item, index) => {
+              return item.id;
+            }}
+            style={{ paddingTop: 15, paddingBottom: 0 }}
+            showsVerticalScrollIndicator={false}
+          />
+          <BlankItem />
+        </ScrollView>
       </View>
 
       <StatusBar style="auto" />
@@ -26,28 +51,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
 
-  inputContainer: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-    borderBottomColor: "#ccc",
-    borderBottomWidth: 1,
-    paddingBottom: 15,
-    marginBottom: 15,
-  },
-
-  textInput: {
-    padding: 10,
-    borderWidth: 1.2,
-    borderColor: "#ccc",
-    height: 40,
-    width: "80%",
-    marginRight: 8,
-    borderRadius: 10,
-  },
-
-  listContainer: {
-    flex: 14
+  todoContainer: {
+    flex: 14,
   },
 });
