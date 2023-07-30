@@ -1,9 +1,11 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Pressable } from "react-native";
 
 function TodoItem(props) {
   return (
     <View style={styles.todoListItem}>
-      <Text style={styles.todoItemText}>{props.text}</Text>
+      <Pressable android_ripple={"#ddd"} onPress={props.onDelete.bind(this, props.id)}>
+        <Text style={styles.todoItemText}>{props.text}</Text>
+      </Pressable>
     </View>
   );
 }
@@ -13,7 +15,6 @@ export default TodoItem;
 const styles = StyleSheet.create({
   todoListItem: {
     marginVertical: 5,
-    padding: 12,
     borderRadius: 6,
     borderColor: "gray",
     borderWidth: 1.5,
@@ -23,5 +24,6 @@ const styles = StyleSheet.create({
   todoItemText: {
     color: "white",
     fontWeight: "bold",
+    padding: 12,
   },
 });

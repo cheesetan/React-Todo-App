@@ -18,6 +18,12 @@ export default function App() {
     }
   }
 
+  function removeTodoItem(id) {
+    updateTodoItemsArray((currentTodoItemsArray) => {
+      return currentTodoItemsArray.filter((todoItem) => todoItem.id != id);
+    });
+  }
+
   return (
     <View style={styles.container}>
       <InputContainer onButtonPress={addTodoItem} />
@@ -27,7 +33,9 @@ export default function App() {
           <FlatList
             data={todoItemsArray}
             renderItem={(todoItem) => {
-              return <TodoItem text={todoItem.item.text}></TodoItem>;
+              return (
+                <TodoItem text={todoItem.item.text} id={todoItem.item.id} onDelete={removeTodoItem} />
+              );
             }}
             keyExtractor={(item, index) => {
               return item.id;
