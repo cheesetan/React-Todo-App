@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ReactProject1",
-    "slug": "ReactProject1",
+    "name": "Todo App",
+    "slug": "Todo App",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
